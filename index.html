@@ -1,0 +1,1176 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TechPro Max - El Futuro de la Innovación</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary: #000;
+            --white: #fff;
+            --gray-light: #f5f5f7;
+            --gray: #86868b;
+            --blue: #0071e3;
+            --gradient-1: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            --gradient-2: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+            --gradient-3: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            line-height: 1.5;
+            color: var(--primary);
+            overflow-x: hidden;
+            background: #000;
+        }
+
+        /* Loading Screen */
+        .loader {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100vh;
+            background: #000;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 9999;
+            transition: opacity 0.5s, visibility 0.5s;
+        }
+
+        .loader.hidden {
+            opacity: 0;
+            visibility: hidden;
+        }
+
+        .loader-circle {
+            width: 50px;
+            height: 50px;
+            border: 3px solid rgba(255, 255, 255, 0.1);
+            border-top-color: #fff;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        /* Navigation */
+        nav {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            padding: 1rem 5%;
+            background: rgba(0, 0, 0, 0.8);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            z-index: 1000;
+            transition: all 0.3s ease;
+        }
+
+        nav.scrolled {
+            padding: 0.5rem 5%;
+            background: rgba(0, 0, 0, 0.95);
+        }
+
+        nav ul {
+            list-style: none;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 2rem;
+        }
+
+        nav a {
+            color: rgba(255, 255, 255, 0.8);
+            text-decoration: none;
+            font-size: 0.9rem;
+            transition: color 0.3s;
+            position: relative;
+        }
+
+        nav a:hover {
+            color: #fff;
+        }
+
+        nav a::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: var(--blue);
+            transition: width 0.3s;
+        }
+
+        nav a:hover::after {
+            width: 100%;
+        }
+
+        /* Hero Section */
+        .hero {
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            overflow: hidden;
+            background: linear-gradient(rgba(0,0,0,0.4), rgba(0,0,0,0.4)), url('https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=1920&h=1080&fit=crop') center/cover;
+        }
+
+        .hero-bg {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(ellipse at center, rgba(100, 126, 234, 0.2) 0%, transparent 70%);
+            animation: pulse 4s ease-in-out infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); opacity: 0.5; }
+            50% { transform: scale(1.1); opacity: 0.3; }
+        }
+
+        .hero-product {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 400px;
+            height: 400px;
+            opacity: 0.1;
+            animation: float 6s ease-in-out infinite;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translate(-50%, -50%) translateY(0); }
+            50% { transform: translate(-50%, -50%) translateY(-20px); }
+        }
+
+        .hero h1 {
+            font-size: clamp(3rem, 8vw, 7rem);
+            font-weight: 700;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 50%, #f093fb 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            text-align: center;
+            opacity: 0;
+            transform: translateY(30px);
+            animation: fadeInUp 1s ease forwards;
+            animation-delay: 0.5s;
+            z-index: 1;
+            position: relative;
+        }
+
+        .hero-subtitle {
+            font-size: clamp(1.2rem, 3vw, 1.8rem);
+            color: rgba(255, 255, 255, 0.9);
+            text-align: center;
+            margin-top: 1rem;
+            opacity: 0;
+            transform: translateY(30px);
+            animation: fadeInUp 1s ease forwards;
+            animation-delay: 0.7s;
+            z-index: 1;
+            position: relative;
+        }
+
+        .hero-cta {
+            margin-top: 2rem;
+            display: flex;
+            gap: 1rem;
+            opacity: 0;
+            transform: translateY(30px);
+            animation: fadeInUp 1s ease forwards;
+            animation-delay: 0.9s;
+            z-index: 1;
+            position: relative;
+        }
+
+        .btn {
+            padding: 1rem 2rem;
+            border-radius: 50px;
+            text-decoration: none;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+            display: inline-block;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .btn-primary {
+            background: var(--blue);
+            color: white;
+            border: none;
+        }
+
+        .btn-primary:hover {
+            transform: scale(1.05);
+            box-shadow: 0 10px 30px rgba(0, 113, 227, 0.3);
+        }
+
+        .btn-secondary {
+            background: transparent;
+            color: white;
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            backdrop-filter: blur(10px);
+        }
+
+        .btn-secondary:hover {
+            background: rgba(255, 255, 255, 0.1);
+            border-color: rgba(255, 255, 255, 0.5);
+        }
+
+        @keyframes fadeInUp {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Scroll Indicator */
+        .scroll-indicator {
+            position: absolute;
+            bottom: 30px;
+            left: 50%;
+            transform: translateX(-50%);
+            animation: bounce 2s infinite;
+            z-index: 1;
+        }
+
+        .scroll-indicator::before {
+            content: '';
+            display: block;
+            width: 30px;
+            height: 50px;
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            border-radius: 25px;
+            position: relative;
+        }
+
+        .scroll-indicator::after {
+            content: '';
+            display: block;
+            width: 6px;
+            height: 10px;
+            background: white;
+            border-radius: 3px;
+            position: absolute;
+            top: 10px;
+            left: 50%;
+            transform: translateX(-50%);
+            animation: scroll 2s infinite;
+        }
+
+        @keyframes bounce {
+            0%, 100% { transform: translateX(-50%) translateY(0); }
+            50% { transform: translateX(-50%) translateY(10px); }
+        }
+
+        @keyframes scroll {
+            0% { opacity: 1; transform: translateX(-50%) translateY(0); }
+            100% { opacity: 0; transform: translateX(-50%) translateY(20px); }
+        }
+
+        /* Video Section */
+        .video-section {
+            padding: 100px 5%;
+            background: var(--primary);
+            position: relative;
+        }
+
+        .video-container {
+            position: relative;
+            width: 100%;
+            max-width: 1200px;
+            margin: 0 auto;
+            border-radius: 30px;
+            overflow: hidden;
+            box-shadow: 0 50px 100px -20px rgba(0, 0, 0, 0.5);
+        }
+
+        .video-container img {
+            width: 100%;
+            height: auto;
+            display: block;
+        }
+
+        .video-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(to bottom, transparent 0%, rgba(0,0,0,0.7) 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+
+        .video-overlay:hover {
+            background: linear-gradient(to bottom, transparent 0%, rgba(0,0,0,0.5) 100%);
+        }
+
+        .play-button {
+            width: 80px;
+            height: 80px;
+            background: rgba(255, 255, 255, 0.9);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: transform 0.3s;
+        }
+
+        .play-button:hover {
+            transform: scale(1.1);
+        }
+
+        .play-button::before {
+            content: '▶';
+            font-size: 30px;
+            color: var(--primary);
+            margin-left: 5px;
+        }
+
+        /* Features Section */
+        .features {
+            padding: 100px 5%;
+            background: var(--gray-light);
+        }
+
+        .feature {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 150px;
+            gap: 5rem;
+            opacity: 0;
+            transform: translateY(50px);
+        }
+
+        .feature.visible {
+            animation: slideInUp 0.8s ease forwards;
+        }
+
+        @keyframes slideInUp {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .feature:nth-child(even) {
+            flex-direction: row-reverse;
+        }
+
+        .feature-content {
+            flex: 1;
+        }
+
+        .feature-content h2 {
+            font-size: clamp(2rem, 4vw, 3.5rem);
+            margin-bottom: 1rem;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .feature-content p {
+            font-size: 1.2rem;
+            color: var(--gray);
+            line-height: 1.8;
+            margin-bottom: 2rem;
+        }
+
+        .feature-visual {
+            flex: 1;
+            position: relative;
+            height: 500px;
+            perspective: 1000px;
+        }
+
+        .feature-card {
+            width: 100%;
+            height: 100%;
+            border-radius: 30px;
+            position: relative;
+            transform-style: preserve-3d;
+            transition: transform 0.3s ease;
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+            overflow: hidden;
+        }
+
+        .feature-card img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .feature-card:hover {
+            transform: rotateY(5deg) rotateX(5deg) scale(1.02);
+        }
+
+        /* Product Showcase */
+        .product-showcase {
+            padding: 100px 5%;
+            background: linear-gradient(to bottom, #000, #1a1a1a);
+            text-align: center;
+        }
+
+        .product-showcase h2 {
+            font-size: clamp(2.5rem, 5vw, 4rem);
+            color: white;
+            margin-bottom: 3rem;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .product-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-top: 3rem;
+        }
+
+        .product-item {
+            position: relative;
+            border-radius: 20px;
+            overflow: hidden;
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(10px);
+            transition: transform 0.3s ease;
+            cursor: pointer;
+        }
+
+        .product-item:hover {
+            transform: translateY(-10px);
+        }
+
+        .product-item img {
+            width: 100%;
+            height: 300px;
+            object-fit: cover;
+        }
+
+        .product-info {
+            padding: 1.5rem;
+            color: white;
+        }
+
+        .product-info h3 {
+            font-size: 1.5rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .product-info p {
+            color: rgba(255, 255, 255, 0.7);
+            font-size: 1rem;
+        }
+
+        /* Specs Section */
+        .specs {
+            padding: 100px 5%;
+            background: var(--gray-light);
+            text-align: center;
+        }
+
+        .specs h2 {
+            font-size: clamp(2.5rem, 5vw, 4rem);
+            margin-bottom: 3rem;
+            opacity: 0;
+            transform: translateY(30px);
+        }
+
+        .specs h2.visible {
+            animation: fadeInUp 0.8s ease forwards;
+        }
+
+        .specs-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 3rem;
+            margin-top: 3rem;
+        }
+
+        .spec-card {
+            background: white;
+            padding: 2rem;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            opacity: 0;
+            transform: translateY(30px) scale(0.9);
+            transition: all 0.3s ease;
+        }
+
+        .spec-card.visible {
+            animation: popIn 0.6s ease forwards;
+        }
+
+        .spec-card:nth-child(1) { animation-delay: 0.1s; }
+        .spec-card:nth-child(2) { animation-delay: 0.2s; }
+        .spec-card:nth-child(3) { animation-delay: 0.3s; }
+        .spec-card:nth-child(4) { animation-delay: 0.4s; }
+
+        @keyframes popIn {
+            to {
+                opacity: 1;
+                transform: translateY(0) scale(1);
+            }
+        }
+
+        .spec-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 20px 40px rgba(0, 113, 227, 0.15);
+        }
+
+        .spec-icon {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .spec-title {
+            font-size: 1.2rem;
+            margin-bottom: 0.5rem;
+            color: var(--gray);
+        }
+
+        .spec-value {
+            font-size: 2rem;
+            font-weight: bold;
+            color: var(--primary);
+        }
+
+        /* Gallery Section */
+        .gallery {
+            padding: 100px 5%;
+            background: #000;
+            text-align: center;
+        }
+
+        .gallery h2 {
+            font-size: clamp(2.5rem, 5vw, 4rem);
+            margin-bottom: 3rem;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .gallery-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 2rem;
+            margin-top: 3rem;
+        }
+
+        .gallery-item {
+            position: relative;
+            height: 400px;
+            border-radius: 20px;
+            overflow: hidden;
+            opacity: 0;
+            transform: scale(0.8) rotateY(15deg);
+            cursor: pointer;
+        }
+
+        .gallery-item.visible {
+            animation: galleryReveal 0.8s ease forwards;
+        }
+
+        .gallery-item:nth-child(1) { animation-delay: 0.1s; }
+        .gallery-item:nth-child(2) { animation-delay: 0.2s; }
+        .gallery-item:nth-child(3) { animation-delay: 0.3s; }
+        .gallery-item:nth-child(4) { animation-delay: 0.4s; }
+        .gallery-item:nth-child(5) { animation-delay: 0.5s; }
+        .gallery-item:nth-child(6) { animation-delay: 0.6s; }
+
+        @keyframes galleryReveal {
+            to {
+                opacity: 1;
+                transform: scale(1) rotateY(0);
+            }
+        }
+
+        .gallery-item img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.5s ease;
+        }
+
+        .gallery-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(to bottom, transparent 0%, rgba(0,0,0,0.8) 100%);
+            display: flex;
+            align-items: flex-end;
+            padding: 2rem;
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+
+        .gallery-item:hover .gallery-overlay {
+            opacity: 1;
+        }
+
+        .gallery-item:hover img {
+            transform: scale(1.1);
+        }
+
+        .gallery-info h3 {
+            color: white;
+            font-size: 1.5rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .gallery-info p {
+            color: rgba(255, 255, 255, 0.8);
+        }
+
+        /* CTA Section */
+        .cta {
+            padding: 150px 5%;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .cta::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(255, 255, 255, 0.1) 1px, transparent 1px);
+            background-size: 50px 50px;
+            animation: moveGrid 10s linear infinite;
+        }
+
+        @keyframes moveGrid {
+            0% { transform: translate(0, 0); }
+            100% { transform: translate(50px, 50px); }
+        }
+
+        .cta-content {
+            position: relative;
+            z-index: 1;
+        }
+
+        .cta h2 {
+            font-size: clamp(2.5rem, 5vw, 4rem);
+            color: white;
+            margin-bottom: 1rem;
+            opacity: 0;
+            transform: translateY(30px);
+        }
+
+        .cta h2.visible {
+            animation: fadeInUp 0.8s ease forwards;
+        }
+
+        .cta p {
+            font-size: 1.3rem;
+            color: rgba(255, 255, 255, 0.9);
+            margin-bottom: 2rem;
+            opacity: 0;
+            transform: translateY(30px);
+        }
+
+        .cta p.visible {
+            animation: fadeInUp 0.8s ease forwards;
+            animation-delay: 0.2s;
+        }
+
+        .cta-button {
+            opacity: 0;
+            transform: translateY(30px);
+        }
+
+        .cta-button.visible {
+            animation: fadeInUp 0.8s ease forwards;
+            animation-delay: 0.4s;
+        }
+
+        .btn-white {
+            background: white;
+            color: var(--primary);
+            padding: 1.2rem 3rem;
+            font-weight: 600;
+            font-size: 1.1rem;
+        }
+
+        .btn-white:hover {
+            transform: scale(1.05);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
+        }
+
+        /* Footer */
+        footer {
+            padding: 3rem 5%;
+            background: #000;
+            color: white;
+            text-align: center;
+        }
+
+        .footer-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 2rem;
+        }
+
+        .footer-links {
+            display: flex;
+            gap: 2rem;
+            list-style: none;
+        }
+
+        .footer-links a {
+            color: rgba(255, 255, 255, 0.6);
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+
+        .footer-links a:hover {
+            color: white;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            nav ul {
+                gap: 1rem;
+            }
+
+            .feature {
+                flex-direction: column !important;
+                gap: 2rem;
+            }
+
+            .feature-visual {
+                height: 300px;
+            }
+
+            .specs-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .gallery-container {
+                grid-template-columns: 1fr;
+            }
+
+            .product-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .footer-content {
+                flex-direction: column;
+                text-align: center;
+            }
+        }
+
+        /* Parallax Effect */
+        .parallax {
+            transition: transform 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+        }
+    </style>
+</head>
+<body>
+    <!-- Loader -->
+    <div class="loader" id="loader">
+        <div class="loader-circle"></div>
+    </div>
+
+    <!-- Navigation -->
+    <nav id="navbar">
+        <ul>
+            <li><a href="#home">Inicio</a></li>
+            <li><a href="#features">Características</a></li>
+            <li><a href="#products">Productos</a></li>
+            <li><a href="#specs">Especificaciones</a></li>
+            <li><a href="#gallery">Galería</a></li>
+            <li><a href="#contact">Contacto</a></li>
+        </ul>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero" id="home">
+        <div class="hero-bg"></div>
+        <h1 class="parallax" data-speed="0.5">TechPro Max</h1>
+        <p class="hero-subtitle parallax" data-speed="0.3">El futuro de la innovación está aquí</p>
+        <div class="hero-cta">
+            <a href="#features" class="btn btn-primary">Descubrir más</a>
+            <a href="#specs" class="btn btn-secondary">Ver especificaciones</a>
+        </div>
+        <div class="scroll-indicator"></div>
+    </section>
+
+    <!-- Video Section -->
+    <section class="video-section">
+        <div class="video-container">
+            <img src="https://images.unsplash.com/photo-1611186871348-b1ce696e52c9?w=1920&h=1080&fit=crop" alt="MacBook Pro Display">
+            <div class="video-overlay">
+                <div class="play-button"></div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Features Section -->
+    <section class="features" id="features">
+        <div class="feature">
+            <div class="feature-content">
+                <h2>Diseño Revolucionario</h2>
+                <p>Cada curva, cada línea, cada detalle ha sido meticulosamente diseñado para crear una experiencia visual sin precedentes. La perfección hecha realidad.</p>
+                <a href="#" class="btn btn-primary">Explorar diseño</a>
+            </div>
+            <div class="feature-visual">
+                <div class="feature-card parallax" data-speed="0.2">
+                    <img src="https://images.unsplash.com/photo-1569770218135-bea267ed7e84?w=800&h=600&fit=crop" alt="Diseño moderno">
+                </div>
+            </div>
+        </div>
+
+        <div class="feature">
+            <div class="feature-content">
+                <h2>Potencia Sin Límites</h2>
+                <p>Procesador de última generación que redefine los estándares de velocidad y eficiencia. Experimenta un rendimiento que supera todas las expectativas.</p>
+                <a href="#" class="btn btn-primary">Ver rendimiento</a>
+            </div>
+            <div class="feature-visual">
+                <div class="feature-card parallax" data-speed="0.2">
+                    <img src="https://images.unsplash.com/photo-1591799265444-d66432b91588?w=800&h=600&fit=crop" alt="Procesador potente">
+                </div>
+            </div>
+        </div>
+
+        <div class="feature">
+            <div class="feature-content">
+                <h2>Innovación Inteligente</h2>
+                <p>Inteligencia artificial integrada que aprende de ti y se adapta a tu estilo de vida. La tecnología que piensa contigo.</p>
+                <a href="#" class="btn btn-primary">Conocer IA</a>
+            </div>
+            <div class="feature-visual">
+                <div class="feature-card parallax" data-speed="0.2">
+                    <img src="https://images.unsplash.com/photo-1677442136019-21780ecad995?w=800&h=600&fit=crop" alt="Inteligencia Artificial">
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Product Showcase -->
+    <section class="product-showcase" id="products">
+        <h2>Nuestra Línea de Productos</h2>
+        <div class="product-grid">
+            <div class="product-item">
+                <img src="https://images.unsplash.com/photo-1606813907291-d86efa9b94db?w=600&h=400&fit=crop" alt="PlayStation Controller">
+                <div class="product-info">
+                    <h3>Gaming Pro</h3>
+                    <p>Control total para gaming profesional</p>
+                </div>
+            </div>
+            <div class="product-item">
+                <img src="https://images.unsplash.com/photo-1546868871-7041f2a55e12?w=600&h=400&fit=crop" alt="Smart Watch">
+                <div class="product-info">
+                    <h3>Watch Ultra</h3>
+                    <p>Tu asistente personal inteligente</p>
+                </div>
+            </div>
+            <div class="product-item">
+                <img src="https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=600&h=400&fit=crop" alt="Headphones">
+                <div class="product-info">
+                    <h3>Audio Max</h3>
+                    <p>Sonido inmersivo sin límites</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Specs Section -->
+    <section class="specs" id="specs">
+        <h2>Especificaciones Técnicas</h2>
+        <div class="specs-grid">
+            <div class="spec-card">
+                <div class="spec-icon">⚙️</div>
+                <div class="spec-title">Procesador</div>
+                <div class="spec-value">A17 Pro</div>
+            </div>
+            <div class="spec-card">
+                <div class="spec-icon">📱</div>
+                <div class="spec-title">Pantalla</div>
+                <div class="spec-value">6.7" OLED</div>
+            </div>
+            <div class="spec-card">
+                <div class="spec-icon">📸</div>
+                <div class="spec-title">Cámara</div>
+                <div class="spec-value">48MP Pro</div>
+            </div>
+            <div class="spec-card">
+                <div class="spec-icon">🔋</div>
+                <div class="spec-title">Batería</div>
+                <div class="spec-value">5000mAh</div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Gallery Section -->
+    <section class="gallery" id="gallery">
+        <h2>Galería de Productos</h2>
+        <div class="gallery-container">
+            <div class="gallery-item">
+                <img src="https://images.unsplash.com/photo-1588872657578-7efd1f1555ed?w=800&h=600&fit=crop" alt="Laptop en escritorio">
+                <div class="gallery-overlay">
+                    <div class="gallery-info">
+                        <h3>Espacio de Trabajo</h3>
+                        <p>Diseñado para profesionales creativos</p>
+                    </div>
+                </div>
+            </div>
+            <div class="gallery-item">
+                <img src="https://images.unsplash.com/photo-1625948515291-69613efd103f?w=800&h=600&fit=crop" alt="Setup gaming">
+                <div class="gallery-overlay">
+                    <div class="gallery-info">
+                        <h3>Gaming Setup</h3>
+                        <p>Rendimiento extremo para gamers</p>
+                    </div>
+                </div>
+            </div>
+            <div class="gallery-item">
+                <img src="https://images.unsplash.com/photo-1598300042247-d088f8ab3a91?w=800&h=600&fit=crop" alt="Desktop moderno">
+                <div class="gallery-overlay">
+                    <div class="gallery-info">
+                        <h3>Desktop Ultra</h3>
+                        <p>Potencia sin compromisos</p>
+                    </div>
+                </div>
+            </div>
+            <div class="gallery-item">
+                <img src="https://images.unsplash.com/photo-1611532736597-de2d4265fba3?w=800&h=600&fit=crop" alt="MacBook cerrado">
+                <div class="gallery-overlay">
+                    <div class="gallery-info">
+                        <h3>Diseño Premium</h3>
+                        <p>Elegancia en cada detalle</p>
+                    </div>
+                </div>
+            </div>
+            <div class="gallery-item">
+                <img src="https://images.unsplash.com/photo-1527443224154-c4a3942d3acf?w=800&h=600&fit=crop" alt="Accesorios tech">
+                <div class="gallery-overlay">
+                    <div class="gallery-info">
+                        <h3>Ecosistema Completo</h3>
+                        <p>Todo lo que necesitas en un lugar</p>
+                    </div>
+                </div>
+            </div>
+            <div class="gallery-item">
+                <img src="https://images.unsplash.com/photo-1574920162043-b872873f19c8?w=800&h=600&fit=crop" alt="Dispositivos conectados">
+                <div class="gallery-overlay">
+                    <div class="gallery-info">
+                        <h3>Conectividad Total</h3>
+                        <p>Sincronización perfecta entre dispositivos</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA Section -->
+    <section class="cta" id="contact">
+        <div class="cta-content">
+            <h2>¿Listo para el futuro?</h2>
+            <p>Únete a millones de usuarios que ya experimentan la innovación</p>
+            <div class="cta-button">
+                <a href="#" class="btn btn-white">Comenzar ahora</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="footer-content">
+            <div>
+                <p>&copy; 2025 TechPro Max. Todos los derechos reservados.</p>
+            </div>
+            <ul class="footer-links">
+                <li><a href="#">Privacidad</a></li>
+                <li><a href="#">Términos</a></li>
+                <li><a href="#">Soporte</a></li>
+                <li><a href="#">Contacto</a></li>
+            </ul>
+        </div>
+    </footer>
+
+    <script>
+        // Hide loader when page is fully loaded
+        window.addEventListener('load', () => {
+            setTimeout(() => {
+                document.getElementById('loader').classList.add('hidden');
+            }, 500);
+        });
+
+        // Navbar scroll effect
+        window.addEventListener('scroll', () => {
+            const navbar = document.getElementById('navbar');
+            if (window.scrollY > 50) {
+                navbar.classList.add('scrolled');
+            } else {
+                navbar.classList.remove('scrolled');
+            }
+        });
+
+        // Smooth scroll for navigation links with offset for fixed navbar
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const targetId = this.getAttribute('href');
+                const target = document.querySelector(targetId);
+                
+                if (target) {
+                    const navHeight = document.getElementById('navbar').offsetHeight;
+                    const targetPosition = target.getBoundingClientRect().top + window.pageYOffset - navHeight - 20;
+                    
+                    window.scrollTo({
+                        top: targetPosition,
+                        behavior: 'smooth'
+                    });
+                    
+                    // Update active nav link
+                    document.querySelectorAll('nav a').forEach(link => {
+                        link.classList.remove('active');
+                    });
+                    this.classList.add('active');
+                }
+            });
+        });
+
+        // Intersection Observer for animations
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -100px 0px'
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                }
+            });
+        }, observerOptions);
+
+        // Observe elements for animation
+        document.querySelectorAll('.feature, .spec-card, .gallery-item, .specs h2, .cta h2, .cta p, .cta-button, .product-item').forEach(el => {
+            observer.observe(el);
+        });
+
+        // Parallax effect
+        const parallaxElements = document.querySelectorAll('.parallax');
+        let ticking = false;
+
+        function updateParallax() {
+            const scrolled = window.pageYOffset;
+            
+            parallaxElements.forEach(el => {
+                const speed = el.dataset.speed || 0.5;
+                const yPos = -(scrolled * speed);
+                el.style.transform = `translateY(${yPos}px)`;
+            });
+            
+            ticking = false;
+        }
+
+        function requestTick() {
+            if (!ticking) {
+                window.requestAnimationFrame(updateParallax);
+                ticking = true;
+            }
+        }
+
+        window.addEventListener('scroll', requestTick);
+
+        // Mouse move effect for feature cards
+        document.querySelectorAll('.feature-card').forEach(card => {
+            card.addEventListener('mousemove', (e) => {
+                const rect = card.getBoundingClientRect();
+                const x = e.clientX - rect.left;
+                const y = e.clientY - rect.top;
+                
+                const centerX = rect.width / 2;
+                const centerY = rect.height / 2;
+                
+                const rotateX = (y - centerY) / 20;
+                const rotateY = (centerX - x) / 20;
+                
+                card.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) scale(1.02)`;
+            });
+            
+            card.addEventListener('mouseleave', () => {
+                card.style.transform = 'perspective(1000px) rotateX(0) rotateY(0) scale(1)';
+            });
+        });
+
+        // Gallery and product hover effects
+        document.querySelectorAll('.gallery-item, .product-item').forEach(item => {
+            item.addEventListener('click', function() {
+                this.style.transform = 'scale(0.98)';
+                setTimeout(() => {
+                    this.style.transform = '';
+                }, 200);
+            });
+        });
+
+        // Add subtle animation to spec cards on hover
+        document.querySelectorAll('.spec-card').forEach(card => {
+            card.addEventListener('mouseenter', function() {
+                const icon = this.querySelector('.spec-icon');
+                icon.style.transform = 'scale(1.2)';
+                setTimeout(() => {
+                    icon.style.transform = 'scale(1)';
+                }, 300);
+            });
+        });
+
+        // Video play button animation
+        const playButton = document.querySelector('.play-button');
+        if (playButton) {
+            playButton.addEventListener('click', function() {
+                alert('En un sitio real, aquí se reproduciría el video');
+            });
+        }
+
+        // Dynamic year in footer
+        const year = new Date().getFullYear();
+        document.querySelector('footer p').innerHTML = `&copy; ${year} TechPro Max. Todos los derechos reservados.`;
+    </script>
+</body>
+</html>
