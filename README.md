@@ -31,7 +31,7 @@ URL de producción: `[tu-url.netlify.app]`
 #### Opción 1: iFrame completo
 ```html
 <iframe 
-    src="https://tu-proyecto.netlify.app" 
+    src="https://react-landing-example.netlify.app" 
     width="100%" 
     height="800px" 
     frameborder="0"
